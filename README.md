@@ -22,7 +22,7 @@ Flexible and semantic SASS based grid system to create beautiful responsive site
 
 **grid.html** - documentation and grid example
 
-**_functions.scss** - mixins that are required but included in Zone boilerplate functions (repetition not needed)
+**_functions.scss** - sass that is required but are common elements that may already be in your project (repetition not needed - just ensure they are there!)
 
 **_grid-settings.scss** - REQUIRED - customisable settings for the grid
 

@@ -1,0 +1,291 @@
+//default fix media queries = false - only set to true on non-responsive browser specific stylesheet
+$fix-mqs: false !default;
+
+//custom breakpoints for both mobile and desktop first
+$panda-mobile-first: $panda - 1;
+$hippo-mobile-first: $hippo - 1;
+$panda-desktop-first: $panda + 1;
+$hippo-desktop-first: $hippo + 1;
+
+$panda-min:em($panda-desktop-first);
+$hippo-min:em($hippo-desktop-first);
+$panda-max:em($panda);
+$hippo-max:em($hippo);
+
+@if $mobile-first {
+	$hippo-min:em($hippo);
+	$panda-min:em($panda);
+	$panda-max:em($panda-mobile-first);
+	$hippo-max:em($hippo-mobile-first);
+}
+
+$panda:em($panda);
+$hippo:em($hippo);
+
+//BREAKPOINTS (MOBILE AND DESKTOP FIRST)
+//@include respond($panda) {}
+//@include respond($hippo) {}
+
+@mixin respond($width) { 
+	//if width is not predefined above (i.e. custom breakpoint) convert to ems first
+	@if $width != ($hippo) and $width != ($panda) {
+		$width: em($width);
+	}
+	@if $mobile-first {
+		// If content displaying on fixed screen size (e.g. non responsive ie8)
+	    @if $fix-mqs {
+	        @content;
+	    }
+	    // Else if content should follow media query as norm for responsive site
+	    @else {
+	        @media screen and (min-width: $width) {
+	            @content;
+	        }
+	    }
+	} 
+	//if desktop first put everything in media queries and fix-mq browsers will ignore correctly
+	@else {
+		@media screen and (max-width: #{$width}) {
+            @content;
+        }
+	}
+}
+//OLD ie SPECIFIC MIXINS
+$old-ie: false !default;
+@mixin old-ie {
+    // Only use this content if we're dealing with old IE
+    @if $old-ie {
+        @content;
+    }
+}
+
+//BREAKPOINT SPECIFIC CHANGES
+
+//MOUSE/MOBILE ONLY
+//@include respond-specific(mouse) {}
+//PANDA/TABLET ONLY
+//@include respond-specific(panda) {}
+//HIPPO/DESKTOP ONLY
+//@include respond-specific(hippo) {}
+
+@mixin respond-specific($specific-breakpoint) {
+	@if $specific-breakpoint == "mouse" {
+		@media screen and (max-width: $panda-max) {
+			@content;
+		}
+	}
+	@if $specific-breakpoint == "panda" {
+		@media screen and (max-width: $hippo-max) and (min-width:$panda-min) {
+			@content;
+		}
+	}
+	@if $specific-breakpoint == "hippo" {
+		@if $fix-mqs {
+			@content;
+		}
+		@else {
+			@media screen and (min-width: $hippo-min) {
+				@content;
+			}
+		}
+	}
+}
+
+//CLEARFIX (SPECIFIC TO BREAKPOINTS)
+
+//MOUSE/MOBILE ONLY
+//@include clearfix(mouse);
+//PANDA/TABLET ONLY
+//@include clearfix(panda);
+//HIPPO/DESKTOP ONLY
+//@include clearfix(hippo);
+
+@mixin clearfix($clearfix-breakpoint) {
+	@if $clearfix-breakpoint == "mouse" {
+		@media screen and (max-width: $panda-max) {
+			@extend %clearfix;
+		}
+	}
+	@if $clearfix-breakpoint == "panda" {
+		@media screen and (max-width: $hippo-max) and (min-width:$panda-min) {
+			@extend %clearfix;
+		}
+	}
+	@if $clearfix-breakpoint == "hippo" {
+		//if not responsive and clearfix for desktop do not set media query - default to this
+		@if $fix-mqs {
+			@extend %clearfix;
+		}
+		@else {
+			@media screen and (min-width: $hippo-min) {
+				@extend %clearfix;
+			}
+		}
+	}
+}
+
+//ROWS
+@mixin row($vertical-spacing, $horizontal-spacing) {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+	zoom:1;
+	margin: (-$vertical-spacing) (-$horizontal-spacing);
+	&:before, &:after {
+		content:"";
+    	display:table;
+	}
+	&:after {
+		clear:both;
+	}
+}
+
+//COLS
+@mixin col($layout, $vertical-spacing, $horizontal-spacing, $hippo-cols:"", $panda-cols:"", $mouse-cols:"") {
+	@if $layout == "float" {
+		display: block;
+		float:left;
+	}
+	@if $layout == "inline" {
+		display: inline-block;
+		float: none;
+		vertical-align: top;
+	}
+	padding:($vertical-spacing) ($horizontal-spacing);
+	& > *:first-child {
+		margin-top:0;
+	}
+	& > *:last-child {
+		margin-bottom:0;
+	}
+
+	//DEFAULT SIZES
+	
+	@if $mobile-first {
+		//MOUSE SIZES
+		//if mouse is declared use the set sizing 
+		//if mouse not declared revert to 100%
+		@if ($mouse-cols != "") and ($mouse-cols != null) {
+			width: 100% / $grid-columns * $mouse-cols;
+		} @else {
+			width: 100%;
+		}
+		//PANDA SIZES
+		//if panda is declared use the set sizing 
+		//if panda not declared revert to hippo sizing
+		//if hippo not declared revert to 100%
+		@include respond($panda) {
+			@if ($panda-cols != "") and ($panda-cols != null) {
+				width: 100% / $grid-columns * $panda-cols;
+			} @else if ($hippo-cols != "") and ($hippo-cols != null) {
+				width: 100% / $grid-columns * $hippo-cols;
+			} @else {
+				width: 100%;
+			}
+		}
+		//HIPPO SIZES
+		//if hippo is declared use the set sizing 
+		//if hippo not declared revert to 100%
+		@include respond($hippo) {
+			@if ($hippo-cols != "") and ($hippo-cols != null) {
+				width: 100% / $grid-columns * $hippo-cols;
+			} @else {
+				width: 100%;
+			}
+		}
+	}
+
+	@else {
+		@if ($hippo-cols != "") and ($hippo-cols != null) {
+			width: 100% / $grid-columns * $hippo-cols;
+		} @else {
+			width: 100%;
+		}
+		//PANDA SIZES
+		//if panda is declared use the set sizing 
+		//if panda not declared revert to hippo sizing
+		//if hippo not declared revert to 100%
+		@include respond($hippo) {
+			@if ($panda-cols != "") and ($panda-cols != null) {
+				width: 100% / $grid-columns * $panda-cols;
+			} @else if ($hippo-cols != "") and ($hippo-cols != null) {
+				width: 100% / $grid-columns * $hippo-cols;
+			} @else {
+				width: 100%;
+			}
+		}
+		//MOUSE SIZES
+		//if mouse is declared use the set sizing 
+		//if mouse not declared revert to 100%
+		@include respond($panda) {
+			@if ($mouse-cols != "") and ($mouse-cols != null) {
+				width: 100% / $grid-columns * $mouse-cols;
+			} @else {
+				width: 100%;
+			}
+		}
+	}
+}
+
+@mixin offset($direction, $offset-hippo:"", $offset-panda:"", $offset-mouse:"") {
+	//PUSH COLUMNS
+	@if $direction == push {
+		//MOUSE OFFSET
+		@include respond-specific(mouse) {
+			@if ($offset-mouse != "") and ($offset-mouse != null) {
+				position: relative;
+				left: 100% / $grid-columns * $offset-mouse; 
+			} @else {
+				left: auto;
+			}
+		}
+		//PANDA OFFSET
+		@include respond-specific(panda) {
+			@if ($offset-panda != "") and ($offset-panda != null) {
+				position: relative;
+				left: 100% / $grid-columns * $offset-panda; 
+			} @else {
+				left: auto;
+			}
+		}
+		//HIPPO OFFSET
+		@include respond-specific(hippo) {
+			@if ($offset-hippo != "") and ($offset-hippo != null) {
+				position: relative;
+				left: 100% / $grid-columns * $offset-hippo; 
+			} @else {
+				left: auto;
+			}
+		}
+	}
+	//PULL COLUMNS
+	@if $direction == pull {
+		//MOUSE OFFSET
+		@include respond-specific(mouse) {
+			@if ($offset-mouse != "") and ($offset-mouse != null) {
+				position: relative;
+				right:100% / $grid-columns * $offset-mouse; 
+			} @else {
+				left: auto;
+			}
+		}
+		//PANDA OFFSET
+		@include respond-specific(panda) {
+			@if ($offset-panda != "") and ($offset-panda != null) {
+				position: relative;
+				right:100% / $grid-columns * $offset-panda; 
+			} @else {
+				left: auto;
+			}
+		}
+		//HIPPO OFFSET
+		@include respond-specific(hippo) {
+			@if ($offset-hippo != "") and ($offset-hippo != null) {
+				position: relative;
+				right:100% / $grid-columns * $offset-hippo; 
+			} @else {
+				left: auto;
+			}
+		}
+	}
+}

@@ -1,0 +1,14 @@
+// MAJOR FUNCTIONALITY
+
+//mixins in Zone boilerplate
+@import "partials/functions";
+//grid settings (custom)
+@import "partials/grid-settings";
+//responsive column functionality
+@import "partials/colspans-responsive";
+
+/////////////////////////////////////////////////////////////////
+
+// PARTIALS
+// Custom css for this site only
+@import "partials/grid-example";

@@ -1,0 +1,12 @@
+$mobile-first: true;
+
+$grid-columns:12;
+
+//BREAK POINTS (MOBILE FIRST)
+$panda: 480; 
+$hippo: 1024; 
+
+//GUTTERS
+$small-gutter: em(2.5);
+$medium-gutter: em(5);
+$large-gutter: em(10);
