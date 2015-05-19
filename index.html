@@ -7,6 +7,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" /><!-- Tells ie to display content in highest mode available -->
 		<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Ensures mobiles show responsive design correctly and do not try to scale -->
 		
+		<link href="stylesheets/git-template.css" rel="stylesheet">
 		<!--[if gt IE 8]><!-->
 			<link href="assets/css/style.css" rel="stylesheet">
 		<!--<![endif]-->
@@ -17,11 +18,14 @@
 	</head>
   
 	<body>
-
-		<section class="middle"><!-- start middle -->
-			<div class="container">
-<!--END HEADER FILE-->
-				<h1>Bass grid</h1>
+		<section class="page-header">
+	      <h1 class="project-name">Bass Grid</h1>
+	      <h2 class="project-tagline">Flexible and semantic SASS based grid system to create beautiful responsive sites that will work on any device. http://belwell.github.io/bass/</h2>
+	      <a href="https://github.com/belwell/bass" class="btn">View on GitHub</a>
+	      <a href="https://github.com/belwell/bass/zipball/master" class="btn">Download .zip</a>
+	      <a href="https://github.com/belwell/bass/tarball/master" class="btn">Download .tar.gz</a>
+	    </section>
+		<section class="main-content">
 				<h2>Main features</h2>
 				<ul>
 					<li>SASS based grid</li>
@@ -43,7 +47,9 @@
 				<strong>_functions.scss</strong> - sass that is required but are common elements that may already be in your project (repetition not needed - just ensure they are there!)<br/>
 				<strong>_grid-settings.scss</strong> - REQUIRED - customisable settings for the grid<br/>
 				<strong>_colspans-responsive.scss</strong> - REQUIRED - grid structure - does not need to be touched<br/>
-				<strong>_grid-example.scss</strong> - styling for grid example and grid.html (NOT NEEDED)
+				<strong>_grid-example.scss</strong> - styling for grid example (NOT NEEDED)
+				<p>
+				<strong>stylesheets</strong> - folder for styling of index.html and demos (NOT NEEDED)</p>
 				<h2>Running SASS</h2>
 				<div class="code"><pre><code>cd **to assets folder**
 sass --watch sass:css --style compressed</code></pre></div>
@@ -354,8 +360,6 @@ $hippo: 1024;</code></pre></div>
 	@include offset(push, 1, null, null);
 }
 </code></pre></div>
-			<!--START FOOTER FILE-->
-			</div>
 		</section><!-- end middle -->
 
 	</body>
