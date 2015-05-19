@@ -30,6 +30,8 @@ Flexible and semantic SASS based grid system to create beautiful responsive site
 
 **_grid-example.scss** - styling for grid example and grid.html (NOT NEEDED)
 
+**stylesheets** - folder for styling of index.html and demos (NOT NEEDED)
+
 ##Running SASS
 
 <div class="code"><pre><code>cd **to assets folder**
